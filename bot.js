@@ -3,7 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-// const path = require("path");
+const path = require("path");
 const axios = require("axios");
 
 const app = express();
@@ -58,15 +58,15 @@ bot.onText(/\/start/, (msg) => {
   );
 });
 
-// app.use(express.static(path.join(__dirname, '../frontend/build')));
-
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
-// });
-
 app.use("/race", raceRouter);
 
-const port = process.env.PORT || 5000;
+app.use(express.static(path.join(__dirname, "../frontend/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
+});
+
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
