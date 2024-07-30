@@ -47,7 +47,9 @@ bot.onText(/\/start/, (msg) => {
           [
             {
               text: "GoApp",
-              web_app: { url: `https://github.com/hades255` },
+              web_app: {
+                url: `https://d6bf-172-86-113-74.ngrok-free.app?userId=${chatId}`,
+              },
             },
           ],
         ],
