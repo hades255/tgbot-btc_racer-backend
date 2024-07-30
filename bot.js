@@ -3,17 +3,21 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const path = require("path");
+// const path = require("path");
 const axios = require("axios");
-
-const token = "7067970345:AAFs9OaXzqCWMK4h85WAujH80d8C0_AFZSI";
-const bot = new TelegramBot(token, { polling: true });
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-const dbURI = "mongodb+srv://chaolongpiao:chaolong1995@cluster0.inglvcw.mongodb.net/tg_bot";
+const raceRouter = require("./routes/race");
+
+const token = "7067970345:AAFs9OaXzqCWMK4h85WAujH80d8C0_AFZSI";
+const bot = new TelegramBot(token, { polling: true });
+
+// const dbURI = "mongodb://localhost:27017/example";
+const dbURI =
+  "mongodb+srv://chaolongpiao:chaolong1995@cluster0.inglvcw.mongodb.net/tg_bot";
 mongoose
   .connect(dbURI)
   .then(() => console.log("MongoDB connected"))
@@ -57,6 +61,8 @@ bot.onText(/\/start/, (msg) => {
 // app.get('*', (req, res) => {
 //   res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
 // });
+
+app.use("/race", raceRouter);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
