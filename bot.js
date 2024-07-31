@@ -11,6 +11,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const raceRouter = require("./routes/race");
+const userRouter = require("./routes/user");
 
 const token = "7067970345:AAFs9OaXzqCWMK4h85WAujH80d8C0_AFZSI";
 const bot = new TelegramBot(token, { polling: true });
@@ -59,6 +60,7 @@ bot.onText(/\/start/, (msg) => {
 });
 
 app.use("/race", raceRouter);
+app.use("/user", userRouter);
 
 app.use(express.static(path.join(__dirname, "../tgbot-btc_racer-frontend/build")));
 

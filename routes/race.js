@@ -1,5 +1,6 @@
 const express = require("express");
 const Race = require("../models/Race");
+const User = require("../models/User");
 
 const router = express.Router();
 
@@ -34,6 +35,12 @@ router.post("/", async (req, res) => {
       result,
       consecutiveWins,
     }).save();
+
+    if (result) {
+      const user = await User.findOne({ chatId: userId });
+      user.score = user.score + pointAmount;
+      user.save();
+    }
 
     res.json({ msg: "ok", data: race });
   } catch (error) {
