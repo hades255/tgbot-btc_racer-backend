@@ -28,7 +28,7 @@ router.post("/", async (req, res) => {
     let consecutiveWins = 0;
     if (latestRace && latestRace.guess === guess && latestRace.result)
       consecutiveWins = 1; // latestRace.consecutiveWins + 1;
-    const race = await new Race({
+    await new Race({
       guess,
       pointAmount,
       user: userId,
@@ -36,13 +36,13 @@ router.post("/", async (req, res) => {
       consecutiveWins,
     }).save();
 
+    const user = await User.findOne({ chatId: userId });
     if (result) {
-      const user = await User.findOne({ chatId: userId });
-      user.score = user.score + pointAmount;
+      user.point = (user.point || 0) + pointAmount;
       user.save();
     }
 
-    res.json({ msg: "ok", data: race });
+    res.json({ msg: "ok", data: user.point || 0 });
   } catch (error) {
     console.log(error);
     res.status(400).send(error.message);

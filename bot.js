@@ -14,11 +14,11 @@ const raceRouter = require("./routes/race");
 const userRouter = require("./routes/user");
 
 const token = "7067970345:AAFs9OaXzqCWMK4h85WAujH80d8C0_AFZSI";
-const bot = new TelegramBot(token, { polling: true });
+// const bot = new TelegramBot(token, { polling: true });
 
-// const dbURI = "mongodb://localhost:27017/example";
-const dbURI =
-  "mongodb+srv://chaolongpiao:chaolong1995@cluster0.inglvcw.mongodb.net/tg_bot";
+const dbURI = "mongodb://localhost:27017/example";
+// const dbURI =
+  // "mongodb+srv://chaolongpiao:chaolong1995@cluster0.inglvcw.mongodb.net/tg_bot";
 mongoose
   .connect(dbURI)
   .then(() => console.log("MongoDB connected"))
@@ -35,7 +35,7 @@ app.get("/btc-price", async (req, res) => {
     res.send("Error fetching BTC price");
   }
 });
-
+/*
 // Set up the bot commands
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
@@ -58,7 +58,7 @@ bot.onText(/\/start/, (msg) => {
     }
   );
 });
-
+*/
 app.use("/race", raceRouter);
 app.use("/user", userRouter);
 
@@ -68,7 +68,7 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../tgbot-btc_racer-frontend/build", "index.html"));
 });
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
