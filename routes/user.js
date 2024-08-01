@@ -19,17 +19,16 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-  const { userId, name } = req.query;
+  const { userId, name, username } = req.query;
   try {
     const user = await User.findOne({ chatId: userId });
     if (user) {
-      if (user.name !== name) {
-        user.name = name;
-        await user.save();
-      }
+      user.name = name;
+      user.username = username;
+      await user.save();
       res.json({ msg: "ok", data: user.point });
     } else {
-      await new User({ chatId: userId, name }).save();
+      await new User({ chatId: userId, name, username }).save();
       res.json({ msg: "ok", data: 0 });
     }
   } catch (error) {
