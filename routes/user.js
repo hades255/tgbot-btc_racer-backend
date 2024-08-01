@@ -23,9 +23,16 @@ router.get("/", async (req, res) => {
   try {
     const user = await User.findOne({ chatId: userId });
     if (user) {
-      user.name = name;
-      user.username = username;
-      await user.save();
+      let updateFlag = false;
+      if (name) {
+        user.name = name;
+        updateFlag = true;
+      }
+      if (username) {
+        user.username = username;
+        updateFlag = true;
+      }
+      if (updateFlag) await user.save();
       res.json({ msg: "ok", data: user.point });
     } else {
       await new User({ chatId: userId, name, username }).save();
