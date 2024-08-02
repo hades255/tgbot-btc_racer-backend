@@ -1,6 +1,7 @@
 const express = require("express");
 const Race = require("../models/Race");
 const User = require("../models/User");
+const { useFuel, boostFuel } = require("../helpers/fuel");
 
 const router = express.Router();
 
@@ -14,6 +15,12 @@ router.get("/", async (req, res) => {
   } catch (error) {
     res.status(400).send(error.message);
   }
+});
+
+router.get("/boost", async (req, res) => {
+  const { userId } = req.query;
+  boostFuel(userId);
+  res.json({ msg: "ok" });
 });
 
 router.post("/", async (req, res) => {
@@ -42,6 +49,7 @@ router.post("/", async (req, res) => {
       user.save();
     }
 
+    useFuel(userId);
     res.json({ msg: "ok", data: user.point || 0 });
   } catch (error) {
     console.log(error);

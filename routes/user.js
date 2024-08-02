@@ -1,6 +1,7 @@
 const express = require("express");
 const Race = require("../models/Race");
 const User = require("../models/User");
+const { newFuel, getFuel } = require("../helpers/fuel");
 
 const router = express.Router();
 
@@ -33,10 +34,15 @@ router.get("/", async (req, res) => {
         updateFlag = true;
       }
       if (updateFlag) await user.save();
-      res.json({ msg: "ok", data: user.point });
+      const fuel = getFuel(userId);
+      res.json({ msg: "ok", data: { point: user.point, fuel } });
     } else {
       await new User({ chatId: userId, name, username }).save();
-      res.json({ msg: "ok", data: 0 });
+      newFuel(userId);
+      res.json({
+        msg: "ok",
+        data: { point: 0, fuel: { fuelcount: 10, cooldown: 0, freeBoost: 3 } },
+      });
     }
   } catch (error) {
     console.log(error);
@@ -46,9 +52,8 @@ router.get("/", async (req, res) => {
 
 router.get("/all", async (req, res) => {
   const { userId } = req.query;
-  //  $ne: { chatId: userId }
   try {
-    const users = await User.find({}).sort({
+    const users = await User.find({ chatId: { $ne: userId } }).sort({
       point: -1,
     });
     res.json({ msg: "ok", data: users });
