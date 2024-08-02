@@ -7,6 +7,19 @@ const UserSchema = Schema({
   name: { type: String, required: true },
   username: { type: String, default: "" },
   point: { type: Number, default: 0 },
+  //  task
+  fueltank: { type: Number, default: 0 },
+  turboCharger: { type: Number, default: 0 },
+  idVerified: { type: Boolean, default: false },
+  followTwitter: { type: Boolean, default: false },
+  connectTon: { type: Boolean, default: false },
+  joinAnnouncementChannel: { type: Boolean, default: false },
+  autoDriv: { type: Boolean, default: false },
+  //  surprise
+  signupAccount: { type: Boolean, default: false },
+  installApp: { type: Boolean, default: false },
+  connectTg: { type: Boolean, default: false },
+  verify: { type: Boolean, default: false },
 });
 
 const User = mongoose.model("User", UserSchema);
