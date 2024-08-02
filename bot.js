@@ -16,9 +16,10 @@ const userRouter = require("./routes/user");
 const token = "7067970345:AAFs9OaXzqCWMK4h85WAujH80d8C0_AFZSI";
 const bot = new TelegramBot(token, { polling: true });
 
-// const dbURI = "mongodb://localhost:27017/example";
+//  todo
 const dbURI =
   "mongodb+srv://chaolongpiao:chaolong1995@cluster0.inglvcw.mongodb.net/tg_bot";
+  // "mongodb://localhost:27017/example";
 mongoose
   .connect(dbURI)
   .then(() => console.log("MongoDB connected"))
@@ -36,13 +37,8 @@ app.get("/btc-price", async (req, res) => {
   }
 });
 // /*
-// Set up the bot commands
 bot.onText(/\/start/, async (msg) => {
   const chatId = msg.chat.id;
-
-  // first_name: 'smart',
-  // last_name: 'guy',
-  // username: 'z_sm_001',
   const {
     username = "",
     last_name = "",

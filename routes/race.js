@@ -1,7 +1,8 @@
 const express = require("express");
 const Race = require("../models/Race");
 const User = require("../models/User");
-const { useFuel, boostFuel } = require("../helpers/fuel");
+const { useFuel, boostFuel, upgradeFuel } = require("../helpers/fuel");
+const { fuelTankPoints } = require("../helpers/user");
 
 const router = express.Router();
 
@@ -21,6 +22,21 @@ router.get("/boost", async (req, res) => {
   const { userId } = req.query;
   boostFuel(userId);
   res.json({ msg: "ok" });
+});
+
+router.get("/upgrade-fuel", async (req, res) => {
+  const { userId } = req.query;
+  try {
+    const user = await User.findOne({ chatId: userId });
+    user.point = user.point - fuelTankPoints(user.fueltank + 1);
+    user.fueltank = user.fueltank + 1;
+    await user.save();
+    upgradeFuel(userId);
+    res.json({ msg: "ok" });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error.message);
+  }
 });
 
 router.post("/", async (req, res) => {

@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
 router.get("/", async (req, res) => {
   const { userId, name, username } = req.query;
   try {
-    const user = await User.findOne({ chatId: userId });
+    let user = await User.findOne({ chatId: userId });
     if (user) {
       let updateFlag = false;
       if (name) {
@@ -34,15 +34,20 @@ router.get("/", async (req, res) => {
         updateFlag = true;
       }
       if (updateFlag) await user.save();
-      const fuel = getFuel(userId);
-      res.json({ msg: "ok", data: { point: user.point, fuel } });
+      let fuel = getFuel(userId);
+      if (fuel) res.json({ msg: "ok", data: { point: user.point, fuel } });
+      else {
+        let fuel = newFuel(userId, {
+          fueltank: user.fueltank,
+          fuelcount: 10 + user.fueltank * 2,
+          fuelcapacity: 10 + user.fueltank * 2,
+        });
+        res.json({ msg: "ok", data: { point: user.point, fuel, user } });
+      }
     } else {
-      await new User({ chatId: userId, name, username }).save();
-      newFuel(userId);
-      res.json({
-        msg: "ok",
-        data: { point: 0, fuel: { fuelcount: 10, cooldown: 0, freeBoost: 3 } },
-      });
+      let user = await new User({ chatId: userId, name, username }).save();
+      let fuel = newFuel(userId);
+      res.json({ msg: "ok", data: { point: 0, fuel, user } });
     }
   } catch (error) {
     console.log(error);
