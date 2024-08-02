@@ -68,7 +68,6 @@ const useFuel = (id_) => {
 
 const timerFunc = () => {
   const fuels = getFuels();
-  console.log(fuels);
   fuels.forEach(
     ({ id, fuelcount, cooldown, freeBoost, fueltank, fuelcapacity }) => {
       if (fuelcount >= fuelcapacity) return;
