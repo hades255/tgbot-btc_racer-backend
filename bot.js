@@ -55,7 +55,7 @@ bot.onText(/\/start/, async (msg) => {
             {
               text: "GoApp",
               web_app: {
-                url: `https://d6bf-172-86-113-74.ngrok-free.app?userId=${chatId}&username=${username}&name=${
+                url: `https://a65b-172-86-113-74.ngrok-free.app?userId=${chatId}&username=${username}&name=${
                   first_name + " " + last_name
                 }`,
               },
