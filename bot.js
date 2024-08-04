@@ -37,6 +37,7 @@ app.get("/btc-price", async (req, res) => {
   }
 });
 // /*
+// Set up the bot commands
 bot.onText(/\/start/, async (msg) => {
   const chatId = msg.chat.id;
   const {
@@ -78,7 +79,7 @@ app.get("*", (req, res) => {
     path.join(__dirname, "../tgbot-btc_racer-frontend/build", "index.html")
   );
 });
-
+//  todo port 3000
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

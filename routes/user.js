@@ -2,6 +2,7 @@ const express = require("express");
 const Race = require("../models/Race");
 const User = require("../models/User");
 const { newFuel, getFuel } = require("../helpers/fuel");
+const { turborPoints } = require("../helpers/user");
 
 const router = express.Router();
 
@@ -35,7 +36,8 @@ router.get("/", async (req, res) => {
       }
       if (updateFlag) await user.save();
       let fuel = getFuel(userId);
-      if (fuel) res.json({ msg: "ok", data: { point: user.point, fuel } });
+      if (fuel)
+        res.json({ msg: "ok", data: { point: user.point, fuel, user } });
       else {
         let fuel = newFuel(userId, {
           fueltank: user.fueltank,
@@ -63,6 +65,20 @@ router.get("/all", async (req, res) => {
     });
     res.json({ msg: "ok", data: users });
   } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
+router.get("/upgrade-turbor", async (req, res) => {
+  const { userId } = req.query;
+  try {
+    const user = await User.findOne({ chatId: userId });
+    user.point = user.point - turborPoints(user.turboCharger + 1);
+    user.turboCharger = user.turboCharger + 1;
+    await user.save();
+    res.json({ msg: "ok", turboCharger: user.turboCharger });
+  } catch (error) {
+    console.log(error);
     res.status(400).send(error.message);
   }
 });
