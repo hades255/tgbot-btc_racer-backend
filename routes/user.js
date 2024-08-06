@@ -24,6 +24,7 @@ router.get("/", async (req, res) => {
   const { userId, name, username } = req.query;
   try {
     let user = await User.findOne({ chatId: userId });
+    console.log(user);
     if (user) {
       let updateFlag = false;
       if (name) {
@@ -77,6 +78,19 @@ router.get("/upgrade-turbor", async (req, res) => {
     user.turboCharger = user.turboCharger + 1;
     await user.save();
     res.json({ msg: "ok", turboCharger: user.turboCharger });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error.message);
+  }
+});
+
+router.get("/bonus", async (req, res) => {
+  const { userId } = req.query;
+  try {
+    const user = await User.findOne({ chatId: userId });
+    user.point = user.point + 2000;
+    await user.save();
+    res.json({ msg: "ok", data: user.point });
   } catch (error) {
     console.log(error);
     res.status(400).send(error.message);
