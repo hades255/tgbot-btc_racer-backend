@@ -1,10 +1,12 @@
-const TelegramBot = require("node-telegram-bot-api");
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
 const axios = require("axios");
+const morgan = require("morgan");
+
+// require("./routes/bot");
 
 const app = express();
 app.use(cors());
@@ -12,18 +14,16 @@ app.use(bodyParser.json());
 
 const raceRouter = require("./routes/race");
 const userRouter = require("./routes/user");
-
-const token = "7067970345:AAFs9OaXzqCWMK4h85WAujH80d8C0_AFZSI";
-const bot = new TelegramBot(token, { polling: true });
-
 //  todo
 const dbURI =
-  "mongodb+srv://chaolongpiao:chaolong1995@cluster0.inglvcw.mongodb.net/tg_bot";
-  // "mongodb://localhost:27017/example";
+  // "mongodb+srv://chaolongpiao:chaolong1995@cluster0.inglvcw.mongodb.net/tg_bot";
+  "mongodb://localhost:27017/example";
 mongoose
   .connect(dbURI)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
+
+app.use(morgan("combined"));
 
 app.get("/btc-price", async (req, res) => {
   try {
@@ -36,37 +36,7 @@ app.get("/btc-price", async (req, res) => {
     res.send("Error fetching BTC price");
   }
 });
-// /*
-// Set up the bot commands
-bot.onText(/\/start/, async (msg) => {
-  const chatId = msg.chat.id;
-  const {
-    username = "",
-    last_name = "",
-    first_name = "",
-  } = await bot.getChat(chatId);
-  bot.sendMessage(
-    chatId,
-    "Welcome! Click the button below to check the current BTC price.",
-    {
-      reply_markup: {
-        inline_keyboard: [
-          [
-            {
-              text: "GoApp",
-              web_app: {
-                url: `https://a65b-172-86-113-74.ngrok-free.app?userId=${chatId}&username=${username}&name=${
-                  first_name + " " + last_name
-                }`,
-              },
-            },
-          ],
-        ],
-      },
-    }
-  );
-});
-// */
+
 app.use("/race", raceRouter);
 app.use("/user", userRouter);
 
@@ -80,7 +50,7 @@ app.get("*", (req, res) => {
   );
 });
 //  todo port 3000
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
