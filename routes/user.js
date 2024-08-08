@@ -59,11 +59,13 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/all", async (req, res) => {
-  const { userId } = req.query;
   try {
-    const users = await User.find({ chatId: { $ne: userId } }).sort({
-      point: -1,
-    });
+    //  chatId: { $ne: userId }
+    const users = await User.find({})
+      .sort({
+        point: -1,
+      })
+      .limit(100);
     res.json({ msg: "ok", data: users });
   } catch (error) {
     res.status(400).send(error.message);

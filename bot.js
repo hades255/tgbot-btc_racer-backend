@@ -6,7 +6,7 @@ const path = require("path");
 const axios = require("axios");
 const morgan = require("morgan");
 
-// require("./routes/bot");
+require("./routes/bot");
 
 const app = express();
 app.use(cors());
@@ -16,8 +16,8 @@ const raceRouter = require("./routes/race");
 const userRouter = require("./routes/user");
 //  todo
 const dbURI =
-  // "mongodb+srv://chaolongpiao:chaolong1995@cluster0.inglvcw.mongodb.net/tg_bot";
-  "mongodb://localhost:27017/example";
+  "mongodb+srv://chaolongpiao:chaolong1995@cluster0.inglvcw.mongodb.net/tg_bot";
+  // "mongodb://localhost:27017/example";
 mongoose
   .connect(dbURI)
   .then(() => console.log("MongoDB connected"))
@@ -50,7 +50,7 @@ app.get("*", (req, res) => {
   );
 });
 //  todo port 3000
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
