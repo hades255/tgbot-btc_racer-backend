@@ -66,6 +66,10 @@ const useFuel = (id_) => {
   );
 };
 
+const resetBoosts = () => {
+  FUELs = FUELs.map((item) => ({ ...item, freeBoost: 3 }));
+};
+
 const timerFunc = () => {
   const fuels = getFuels();
   fuels.forEach(
@@ -89,4 +93,11 @@ const timer = setInterval(() => {
   timerFunc();
 }, 1000);
 
-module.exports = { newFuel, getFuel, boostFuel, useFuel, upgradeFuel };
+module.exports = {
+  newFuel,
+  getFuel,
+  boostFuel,
+  useFuel,
+  upgradeFuel,
+  resetBoosts,
+};

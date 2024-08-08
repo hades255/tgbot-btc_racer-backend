@@ -7,6 +7,7 @@ const axios = require("axios");
 const morgan = require("morgan");
 
 require("./routes/bot");
+require("./helpers/cron");
 
 const app = express();
 app.use(cors());

@@ -91,6 +91,10 @@ router.get("/bonus", async (req, res) => {
   try {
     const user = await User.findOne({ chatId: userId });
     user.point = user.point + 2000;
+    user.dailyBonus = {
+      level: user.dailyBonus.level + 1,
+      check: true,
+    };
     await user.save();
     res.json({ msg: "ok", data: user.point });
   } catch (error) {
