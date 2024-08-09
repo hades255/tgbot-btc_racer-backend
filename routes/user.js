@@ -90,7 +90,7 @@ router.get("/bonus", async (req, res) => {
   const { userId } = req.query;
   try {
     const user = await User.findOne({ chatId: userId });
-    user.point = user.point + dailyBonusPoints(user.dailyBonus);
+    user.point = user.point + dailyBonusPoints(user.dailyBonus.level);
     user.dailyBonus = {
       level: user.dailyBonus.level + 1,
       check: true,
