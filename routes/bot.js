@@ -1,9 +1,16 @@
 const TelegramBot = require("node-telegram-bot-api");
+const Referral = require("../models/Referral");
 
 const token = "7067970345:AAFs9OaXzqCWMK4h85WAujH80d8C0_AFZSI";
 const bot = new TelegramBot(token, { polling: true });
-bot.onText(/\/start/, async (msg) => {
+bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
   const chatId = msg.chat.id;
+  const referralCode = match[1];
+  let reftext = "Welcome! No referral code found.";
+  if (referralCode) {
+    reftext = `Referral Code: ${referralCode}`;
+    saveReferralCode(chatId, referralCode);
+  }
   const {
     username = "",
     last_name = "",
@@ -11,7 +18,7 @@ bot.onText(/\/start/, async (msg) => {
   } = await bot.getChat(chatId);
   bot.sendMessage(
     chatId,
-    "Welcome! Click the button below to check the current BTC price.",
+    `${reftext}\nWelcome! Click the button below to start app.`,
     {
       reply_markup: {
         inline_keyboard: [
@@ -30,3 +37,14 @@ bot.onText(/\/start/, async (msg) => {
     }
   );
 });
+
+const saveReferralCode = (userId, referralCode) => {
+  new Referral({
+    code: referralCode,
+    userId: userId,
+    timestamp: new Date(),
+  })
+    .save()
+    .then(() => console.log("Referral Saved"))
+    .catch((err) => console.error(err));
+};

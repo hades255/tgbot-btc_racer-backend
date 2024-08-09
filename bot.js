@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 
 const raceRouter = require("./routes/race");
 const userRouter = require("./routes/user");
+const referralRouter = require("./routes/referral");
 //  todo
 const dbURI =
   "mongodb+srv://chaolongpiao:chaolong1995@cluster0.inglvcw.mongodb.net/tg_bot";
@@ -40,6 +41,7 @@ app.get("/btc-price", async (req, res) => {
 
 app.use("/race", raceRouter);
 app.use("/user", userRouter);
+app.use("/referral", referralRouter);
 
 app.use(
   express.static(path.join(__dirname, "../tgbot-btc_racer-frontend/build"))
