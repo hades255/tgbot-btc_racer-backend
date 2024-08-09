@@ -2,7 +2,7 @@ const express = require("express");
 const Race = require("../models/Race");
 const User = require("../models/User");
 const { newFuel, getFuel } = require("../helpers/fuel");
-const { turborPoints } = require("../helpers/user");
+const { turborPoints, dailyBonusPoints } = require("../helpers/user");
 
 const router = express.Router();
 
@@ -90,9 +90,27 @@ router.get("/bonus", async (req, res) => {
   const { userId } = req.query;
   try {
     const user = await User.findOne({ chatId: userId });
-    user.point = user.point + 2000;
+    user.point = user.point + dailyBonusPoints(user.dailyBonus);
     user.dailyBonus = {
       level: user.dailyBonus.level + 1,
+      check: true,
+    };
+    await user.save();
+    res.json({ msg: "ok", data: user.point });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error.message);
+  }
+});
+
+//  daily visit alphanomics platform
+router.get("/bonus-visit", async (req, res) => {
+  const { userId } = req.query;
+  try {
+    const user = await User.findOne({ chatId: userId });
+    user.point = user.point + dailyBonusPoints(user.dailyBonusVisit.level);
+    user.dailyBonusVisit = {
+      level: user.dailyBonusVisit.level + 1,
       check: true,
     };
     await user.save();

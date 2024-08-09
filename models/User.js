@@ -14,6 +14,10 @@ const UserSchema = Schema({
     level: { type: Number, default: 0 },
     check: { type: Boolean, default: false },
   },
+  dailyBonusVisit: {
+    level: { type: Number, default: 0 },
+    check: { type: Boolean, default: false },
+  },
   idVerified: { type: Boolean, default: false },
   followTwitter: { type: Boolean, default: false },
   connectTon: { type: Boolean, default: false },

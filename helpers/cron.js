@@ -20,6 +20,11 @@ const updateDailyChecks = async () => {
       } else {
         user.dailyBonus.level = 0;
       }
+      if (user.dailyConnectBonus.check) {
+        user.dailyConnectBonus.check = false;
+      } else {
+        user.dailyConnectBonus.level = 0;
+      }
       await user.save();
     });
   } catch (error) {
