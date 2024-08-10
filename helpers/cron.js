@@ -20,10 +20,10 @@ const updateDailyChecks = async () => {
       } else {
         user.dailyBonus.level = 0;
       }
-      if (user.dailyConnectBonus.check) {
-        user.dailyConnectBonus.check = false;
+      if (user.dailyBonusVisit.check) {
+        user.dailyBonusVisit.check = false;
       } else {
-        user.dailyConnectBonus.level = 0;
+        user.dailyBonusVisit.level = 0;
       }
       await user.save();
     });
