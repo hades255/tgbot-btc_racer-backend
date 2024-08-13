@@ -10,6 +10,7 @@ const UserSchema = Schema({
   //  task
   fueltank: { type: Number, default: 0 },
   turboCharger: { type: Number, default: 0 },
+  //  daily
   dailyBonus: {
     level: { type: Number, default: 0 },
     check: { type: Boolean, default: false },
@@ -19,11 +20,13 @@ const UserSchema = Schema({
     check: { type: Boolean, default: false },
   },
   idVerified: { type: Boolean, default: false },
-  followTwitter: { type: Boolean, default: false },
   connectTon: { type: Boolean, default: false },
+  //  one time
+  followTwitter: { type: Boolean, default: false },
   joinAnnouncementChannel: { type: Boolean, default: false },
-  autoDriv: { type: Boolean, default: false },
+  joinNewsletter: { type: Boolean, default: false },
   //  surprise
+  autoDriv: { type: Boolean, default: false },
   signupAccount: { type: Boolean, default: false },
   installApp: { type: Boolean, default: false },
   connectTg: { type: Boolean, default: false },

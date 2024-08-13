@@ -121,4 +121,46 @@ router.get("/bonus-visit", async (req, res) => {
   }
 });
 
+router.get("/bonus-followx", async (req, res) => {
+  const { userId } = req.query;
+  try {
+    const user = await User.findOne({ chatId: userId });
+    user.point = user.point + 3000;
+    user.followTwitter = true;
+    await user.save();
+    res.json({ msg: "ok", data: user.point });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error.message);
+  }
+});
+
+router.get("/bonus-joinannouncement", async (req, res) => {
+  const { userId } = req.query;
+  try {
+    const user = await User.findOne({ chatId: userId });
+    user.point = user.point + 3000;
+    user.joinAnnouncementChannel = true;
+    await user.save();
+    res.json({ msg: "ok", data: user.point });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error.message);
+  }
+});
+
+router.get("/bonus-joinnewsletter", async (req, res) => {
+  const { userId } = req.query;
+  try {
+    const user = await User.findOne({ chatId: userId });
+    user.point = user.point + 3000;
+    user.joinNewsletter = true;
+    await user.save();
+    res.json({ msg: "ok", data: user.point });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error.message);
+  }
+});
+
 module.exports = router;
