@@ -31,6 +31,8 @@ const UserSchema = Schema({
   installApp: { type: Boolean, default: false },
   connectTg: { type: Boolean, default: false },
   verify: { type: Boolean, default: false },
+  eligibility: { type: Boolean, default: false },
+  ethaddress: { type: String, default: "" },
 });
 
 const User = mongoose.model("User", UserSchema);

@@ -3,6 +3,7 @@ const Race = require("../models/Race");
 const User = require("../models/User");
 const { newFuel, getFuel } = require("../helpers/fuel");
 const { turborPoints, dailyBonusPoints } = require("../helpers/user");
+const { default: axios } = require("axios");
 
 const router = express.Router();
 
@@ -157,6 +158,24 @@ router.get("/bonus-joinnewsletter", async (req, res) => {
     user.joinNewsletter = true;
     await user.save();
     res.json({ msg: "ok", data: user.point });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error.message);
+  }
+});
+
+router.get("/checkcsv", async (req, res) => {
+  const { userId, wallet } = req.query;
+  try {
+    const user = await User.findOne({ chatId: userId });
+    const response = await axios.get(
+      `https://api.alphanomics.io/accounts/check_account/?wallet_address=${wallet}`
+    );
+    const result = response.data?.exists || false;
+    user.eligibility = result;
+    if (result) user.ethaddress = wallet;
+    await user.save();
+    res.json({ msg: "ok", data: result });
   } catch (error) {
     console.log(error);
     res.status(400).send(error.message);
