@@ -25,7 +25,6 @@ router.get("/", async (req, res) => {
   const { userId, name, username } = req.query;
   try {
     let user = await User.findOne({ chatId: userId });
-    console.log(user);
     if (user) {
       let updateFlag = false;
       if (name) {
@@ -36,18 +35,18 @@ router.get("/", async (req, res) => {
         user.username = username;
         updateFlag = true;
       }
-      if (updateFlag) await user.save();
-      let fuel = getFuel(userId);
-      if (fuel)
-        res.json({ msg: "ok", data: { point: user.point, fuel, user } });
-      else {
-        let fuel = newFuel(userId, {
-          fueltank: user.fueltank,
-          fuelcount: 10 + user.fueltank * 2,
-          fuelcapacity: 10 + user.fueltank * 2,
-        });
-        res.json({ msg: "ok", data: { point: user.point, fuel, user } });
+      let fuel = getFuel(userId, {
+        fueltank: user.fueltank,
+        fuelcount: 10 + user.fueltank * 2,
+        fuelcapacity: 10 + user.fueltank * 2,
+        turboCharger: user.turboCharger,
+      });
+      if (fuel.autopilot.earned) {
+        user.point = (user.point | 0) + fuel.autopilot.earned;
+        updateFlag = true;
       }
+      if (updateFlag) await user.save();
+      res.json({ msg: "ok", data: { point: user.point, fuel, user } });
     } else {
       let user = await new User({ chatId: userId, name, username }).save();
       let fuel = newFuel(userId);

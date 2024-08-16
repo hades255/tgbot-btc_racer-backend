@@ -1,7 +1,12 @@
 const express = require("express");
 const Race = require("../models/Race");
 const User = require("../models/User");
-const { useFuel, boostFuel, upgradeFuel } = require("../helpers/fuel");
+const {
+  useFuel,
+  boostFuel,
+  upgradeFuel,
+  setAutopilot,
+} = require("../helpers/fuel");
 const { fuelTankPoints } = require("../helpers/user");
 
 const router = express.Router();
@@ -9,9 +14,12 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   const { userId } = req.query;
   try {
-    const races = await Race.find({ user: userId }).sort({
-      createdAt: -1,
-    });
+    const races = await Race.find({ user: userId })
+      .sort({
+        createdAt: -1,
+      })
+      .limit(5)
+      .exec();
     res.json({ msg: "ok", data: races });
   } catch (error) {
     res.status(400).send(error.message);
@@ -71,6 +79,12 @@ router.post("/", async (req, res) => {
     console.log(error);
     res.status(400).send(error.message);
   }
+});
+
+router.get("/activate-autopilot", (req, res) => {
+  const { userId } = req.query;
+  setAutopilot(userId);
+  res.json({ msg: "ok" });
 });
 
 module.exports = router;
