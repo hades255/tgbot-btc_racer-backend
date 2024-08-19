@@ -26,7 +26,7 @@ bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
             {
               text: "GoApp",
               web_app: {
-                url: `https://a65b-172-86-113-74.ngrok-free.app?userId=${chatId}&username=${username}&name=${
+                url: `https://efc2-172-86-113-74.ngrok-free.app?userId=${chatId}&username=${username}&name=${
                   first_name + " " + last_name
                 }`,
               },
