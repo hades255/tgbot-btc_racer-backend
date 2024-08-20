@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/frens", async (req, res) => {
   const { userId } = req.query;
   try {
-    let userIds = await Referral.distinct("userId", {
+    let userIds = await Referral.distinct({
       $or: [{ userId }, { code: userId }],
     }).exec();
     if (!userIds.includes(userId)) {
