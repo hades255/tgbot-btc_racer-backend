@@ -51,7 +51,7 @@ const saveReferralCode = async (userId, referralCode) => {
     if (referrer) {
       const oldref = await Referral.findOne({
         code: referralCode,
-        userId: userId,
+        userId,
       });
       if (oldref) return null;
       const user = await User.findOne({ chatId: userId });
@@ -61,7 +61,7 @@ const saveReferralCode = async (userId, referralCode) => {
       await user.save();
       await new Referral({
         code: referralCode,
-        userId: userId,
+        userId,
         timestamp: new Date(),
       }).save();
       return bonus;
