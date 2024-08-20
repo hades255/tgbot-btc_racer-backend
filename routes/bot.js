@@ -10,7 +10,7 @@ bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
     const chatId = msg.chat.id;
     const referralCode = match[1];
     let reftext = "Welcome! No referral code found.";
-    let bonus = "";
+    let bonus = 0;
     if (referralCode) {
       reftext = `Referral Code: ${referralCode}`;
       bonus = await saveReferralCode(chatId, referralCode);
@@ -55,8 +55,9 @@ const saveReferralCode = async (userId, referralCode) => {
       });
       if (oldref) return null;
       const user = await User.findOne({ chatId: userId });
-      const bonus = referrer.point / 10 > 10000 ? 10000 : referrer.point / 10;
-      user.point = user.point + 5000 + bonus;
+      const bonus =
+        5000 + referrer.point / 10 > 10000 ? 10000 : referrer.point / 10;
+      user.point = user.point + bonus;
       await user.save();
       await new Referral({
         code: referralCode,
