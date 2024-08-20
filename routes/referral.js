@@ -32,4 +32,27 @@ router.get("/frens", async (req, res) => {
   }
 });
 
+router.get("/bonus", async (req, res) => {
+  const { userId } = req.query;
+  try {
+    const result = await Referral.aggregate([
+      {
+        $match: { userId: userId },
+      },
+      {
+        $group: {
+          _id: null,
+          totalBonus: { $sum: "$bonus" },
+        },
+      },
+    ]);
+
+    const totalBonus = result.length > 0 ? result[0].totalBonus : 0;
+    res.json({ msg: "ok", totalBonus });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error.message);
+  }
+});
+
 module.exports = router;

@@ -62,6 +62,7 @@ const saveReferralCode = async (userId, referralCode) => {
       await new Referral({
         code: referralCode,
         userId,
+        bonus,
         timestamp: new Date(),
       }).save();
       return bonus;
