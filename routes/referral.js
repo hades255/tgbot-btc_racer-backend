@@ -42,7 +42,7 @@ router.get("/bonus", async (req, res) => {
       {
         $group: {
           _id: null,
-          totalBonus: { $sum: "$bonus" },
+          totalBonus: { $sum: { $toDouble: "$bonus" } },
         },
       },
     ]);
