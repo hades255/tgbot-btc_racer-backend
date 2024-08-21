@@ -33,7 +33,9 @@ bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
                 web_app: {
                   url: `https://efc2-172-86-113-74.ngrok-free.app?userId=${chatId}&username=${username}&name=${
                     first_name + " " + last_name
-                  }&refer=${referralCode}&bonus=${bonus}`,
+                  }${referralCode ? "&refer=" + referralCode : ""}${
+                    bonus ? "&bonus=" + bonus : ""
+                  }`,
                 },
               },
             ],
