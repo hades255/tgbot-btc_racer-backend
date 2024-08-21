@@ -21,6 +21,13 @@ bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
       last_name = "",
       first_name = "",
     } = await bot.getChat(chatId);
+    console.log(
+      `https://efc2-172-86-113-74.ngrok-free.app?userId=${chatId}&username=${username}&name=${
+        first_name + " " + last_name
+      }${referralCode ? "&refer=" + referralCode : ""}${
+        bonus ? "&bonus=" + bonus : ""
+      }`
+    );
     bot.sendMessage(
       chatId,
       `${reftext}\nWelcome! Click the button below to start app.`,
