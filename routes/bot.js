@@ -7,8 +7,7 @@ const bot = new TelegramBot(token, { polling: true });
 
 bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
   try {
-    const query = req.query;
-    console.log(query);
+    console.log(msg);
     const chatId = msg.chat.id;
     const referralCode = match[1];
     let reftext = "Welcome! No referral code found.";
