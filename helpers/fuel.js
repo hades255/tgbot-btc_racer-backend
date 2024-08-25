@@ -1,4 +1,4 @@
-const { dateDiffInSeconds, dateDiffInHours } = require("./func");
+const { dateDiffInSeconds, dateDiffInMins } = require("./func");
 
 let FUELs = [];
 
@@ -40,7 +40,7 @@ const getFuel = (id, options = {}) => {
         },
       };
     }
-    return FUELs.find((item) => item.id === id);
+    return fuel;
   } else return newFuel(id, options);
 };
 
@@ -144,7 +144,7 @@ const timerFunc = () => {
         }
       }
       if (autopilot.enabled) {
-        if (dateDiffInHours(new Date(), new Date(autopilot.started)) >= 3) {
+        if (dateDiffInMins(new Date(), new Date(autopilot.started)) >= 180) {
           updateFlag = true;
           const earned = getAutopilotEarn(autopilot.started, turboCharger);
           autopilot = {
@@ -167,7 +167,7 @@ const timerFunc = () => {
   );
 };
 
-// const timer = setInterval(() => {  //  find more stable way for timer 
+// const timer = setInterval(() => {  //  find more stable way for timer
 timerFunc();
 // }, 1000);
 

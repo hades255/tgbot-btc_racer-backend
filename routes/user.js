@@ -46,7 +46,12 @@ router.get("/", async (req, res) => {
         updateFlag = true;
       }
       if (updateFlag) await user.save();
-      res.json({ msg: "ok", data: { point: user.point, fuel, user } });
+      res.json({
+        point: user.point,
+        fuel,
+        user,
+        autoearned: fuel.autopilot.earned,
+      });
     } else {
       let user = await new User({ chatId: userId, name, username }).save();
       let fuel = newFuel(userId);
