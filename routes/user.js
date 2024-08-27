@@ -175,11 +175,14 @@ router.get("/checkcsv", async (req, res) => {
     const response = await axios.get(
       `https://api.alphanomics.io/accounts/check_account/?wallet_address=${wallet}`
     );
-    const result = response.data?.exists || false;
-    user.eligibility = result;
-    if (result) user.ethaddress = wallet;
-    await user.save();
-    res.json({ msg: "ok", data: result });
+    const result = response.data.points === null ? false : true;
+    if (user && result) {
+      user.eligibility = true;
+      user.ethaddress = wallet;
+      if (Number(response.data.points) >= 10) user.pluslevel = true;
+      await user.save();
+    }
+    res.json({ point: response.data.points, data: user && result });
   } catch (error) {
     console.log(error);
     res.status(400).send(error.message);

@@ -33,6 +33,7 @@ const UserSchema = Schema({
   verify: { type: Boolean, default: false },
   eligibility: { type: Boolean, default: false },
   ethaddress: { type: String, default: "" },
+  pluslevel: { type: Boolean, default: false },
 });
 
 const User = mongoose.model("User", UserSchema);
