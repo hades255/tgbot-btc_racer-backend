@@ -30,7 +30,7 @@ bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
               {
                 text: "GoApp",
                 web_app: {
-                  url: `https://efc2-172-86-113-74.ngrok-free.app?userId=${chatId}&username=${username}&name=${
+                  url: `https://srv587993.hstgr.cloud?userId=${chatId}&username=${username}&name=${
                     first_name + " " + last_name
                   }${referralCode ? "&refer=" + referralCode : ""}${
                     bonus ? "&bonus=" + bonus : ""
