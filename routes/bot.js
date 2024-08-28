@@ -11,10 +11,6 @@ bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
   try {
     const chatId = msg.chat.id;
     const referralCode = match[1];
-    let bonus = 0;
-    if (referralCode) {
-      bonus = await saveReferralCode(chatId, referralCode);
-    }
     const {
       username = "",
       last_name = "",
@@ -32,9 +28,7 @@ bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
                 web_app: {
                   url: `https://srv587993.hstgr.cloud?userId=${chatId}&username=${username}&name=${
                     first_name + " " + last_name
-                  }${referralCode ? "&refer=" + referralCode : ""}${
-                    bonus ? "&bonus=" + bonus : ""
-                  }`,
+                  }&refer=${referralCode}`,
                 },
               },
             ],
@@ -56,11 +50,8 @@ const saveReferralCode = async (userId, referralCode) => {
         userId,
       });
       if (oldref) return null;
-      const user = await User.findOne({ chatId: userId });
       const bonus =
         5000 + referrer.point / 10 > 10000 ? 10000 : referrer.point / 10;
-      user.point = user.point + bonus;
-      await user.save();
       await new Referral({
         code: referralCode,
         userId,
@@ -75,3 +66,5 @@ const saveReferralCode = async (userId, referralCode) => {
     throw error;
   }
 };
+
+module.exports = { saveReferralCode };

@@ -4,6 +4,7 @@ const User = require("../models/User");
 const { newFuel, getFuel } = require("../helpers/fuel");
 const { turborPoints, dailyBonusPoints } = require("../helpers/user");
 const { default: axios } = require("axios");
+const { saveReferralCode } = require("./bot");
 
 const router = express.Router();
 
@@ -22,17 +23,25 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-  const { userId, name, username } = req.query;
+  const { userId, name, username, refer } = req.query;
   try {
     let user = await User.findOne({ chatId: userId });
+    let bonus = 0;
+    let updateFlag = false;
+    if (refer) {
+      bonus = await saveReferralCode(userId, refer);
+    }
     if (user) {
-      let updateFlag = false;
       if (name) {
         user.name = name;
         updateFlag = true;
       }
       if (username) {
         user.username = username;
+        updateFlag = true;
+      }
+      if (bonus) {
+        user.point += bonus;
         updateFlag = true;
       }
       let fuel = getFuel(userId, {
@@ -51,11 +60,17 @@ router.get("/", async (req, res) => {
         fuel,
         user,
         autoearned: fuel.autopilot.earned,
+        bonus,
       });
     } else {
-      let user = await new User({ chatId: userId, name, username }).save();
+      let user = await new User({
+        chatId: userId,
+        name,
+        username,
+        point: bonus || 0,
+      }).save();
       let fuel = newFuel(userId);
-      res.json({ msg: "ok", data: { point: 0, fuel, user } });
+      res.json({ msg: "ok", data: { point: 0, fuel, user, bonus } });
     }
   } catch (error) {
     console.log(error);
