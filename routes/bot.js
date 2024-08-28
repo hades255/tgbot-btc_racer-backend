@@ -2,17 +2,17 @@ const TelegramBot = require("node-telegram-bot-api");
 const Referral = require("../models/Referral");
 const User = require("../models/User");
 
-const token = "7067970345:AAFs9OaXzqCWMK4h85WAujH80d8C0_AFZSI";
+//  ANOM Invaders
+//  anom_invaders_bot
+const token = "7200211488:AAGAlNg2aAr4C9WFt-E3xcLWHtSMp_dtgwI";
 const bot = new TelegramBot(token, { polling: true });
 
 bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
   try {
     const chatId = msg.chat.id;
     const referralCode = match[1];
-    let reftext = "Welcome! No referral code found.";
     let bonus = 0;
     if (referralCode) {
-      reftext = `Referral Code: ${referralCode}`;
       bonus = await saveReferralCode(chatId, referralCode);
     }
     const {
@@ -22,7 +22,7 @@ bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
     } = await bot.getChat(chatId);
     bot.sendMessage(
       chatId,
-      `${reftext}\nWelcome! Click the button below to start app.`,
+      `👩‍🚀 Welcome to the ANOM Invaders!\nFire up your rockets and predict ETH's price in real-time!\n💧 Guess: PUMP or DUMP in the next 5 seconds?\n💎Collect Diamonds: Correct guesses earn diamonds and bonuses!\n👥 Invite Friends: Boost your score by inviting friends!`,
       {
         reply_markup: {
           inline_keyboard: [
