@@ -7,6 +7,9 @@ const User = require("../models/User");
 const token = "7200211488:AAGAlNg2aAr4C9WFt-E3xcLWHtSMp_dtgwI";
 const bot = new TelegramBot(token, { polling: true });
 
+// const serverurl = "https://srv587993.hstgr.cloud";
+const serverurl = "https://efc2-172-86-113-74.ngrok-free.app";
+
 bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
   try {
     const chatId = msg.chat.id;
@@ -26,7 +29,7 @@ bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
               {
                 text: "GoApp",
                 web_app: {
-                  url: `https://srv587993.hstgr.cloud?userId=${chatId}&username=${username}&name=${
+                  url: `${serverurl}?userId=${chatId}&username=${username}&name=${
                     first_name + " " + last_name
                   }&refer=${referralCode}`,
                 },

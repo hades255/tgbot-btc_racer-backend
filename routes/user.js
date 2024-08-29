@@ -1,5 +1,4 @@
 const express = require("express");
-const Race = require("../models/Race");
 const User = require("../models/User");
 const { newFuel, getFuel } = require("../helpers/fuel");
 const { turborPoints, dailyBonusPoints } = require("../helpers/user");
