@@ -96,9 +96,10 @@ router.get("/upgrade-turbor", async (req, res) => {
   try {
     const user = await User.findOne({ chatId: userId });
     user.point = user.point - turborPoints(user.turboCharger + 1);
+    if (user.point < 0) return res.json({ msg: "error" });
     user.turboCharger = user.turboCharger + 1;
     await user.save();
-    res.json({ msg: "ok", turboCharger: user.turboCharger });
+    res.json({ msg: "ok", turboCharger: user.turboCharger, point: user.point });
   } catch (error) {
     console.log(error);
     res.status(400).send(error.message);

@@ -9,7 +9,7 @@ const fuelTankPoints = (lvl) => {
     case 3:
       return 6000;
     default:
-      return 9000;
+      return 10000 * (lvl - 4) * 6000;
   }
 };
 
@@ -24,7 +24,7 @@ const turborPoints = (lvl) => {
     case 3:
       return 10000;
     default:
-      return 15000;
+      return 15000 * (lvl - 4) * 7000;
   }
 };
 
@@ -39,7 +39,7 @@ const dailyBonusPoints = (lvl) => {
     case 3:
       return 10000;
     default:
-      return lvl * 5000;
+      return 15000 * (lvl - 4) * 4000;
   }
 };
 

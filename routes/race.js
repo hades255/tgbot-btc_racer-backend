@@ -37,10 +37,11 @@ router.get("/upgrade-fuel", async (req, res) => {
   try {
     const user = await User.findOne({ chatId: userId });
     user.point = user.point - fuelTankPoints(user.fueltank + 1);
+    if (user.point < 0) return res.json({ msg: "error" });
     user.fueltank = user.fueltank + 1;
     await user.save();
     upgradeFuel(userId);
-    res.json({ msg: "ok" });
+    res.json({ msg: "ok", point: user.point });
   } catch (error) {
     console.log(error);
     res.status(400).send(error.message);
