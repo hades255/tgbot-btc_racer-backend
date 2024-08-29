@@ -51,7 +51,7 @@ router.get("/upgrade-fuel", async (req, res) => {
 router.post("/", async (req, res) => {
   const { guess, pointAmount, userId, result } = req.body;
   console.log(req.body);
-  if (!guess || !pointAmount || !userId)
+  if (!guess || !userId)
     return res.json({ msg: "error: fill in the input values" });
   try {
     const latestRace = await Race.findOne({ user: userId }).sort({
@@ -62,7 +62,7 @@ router.post("/", async (req, res) => {
       consecutiveWins = latestRace.consecutiveWins + 1;
     await new Race({
       guess,
-      pointAmount: (consecutiveWins + 1) * pointAmount,
+      pointAmount,
       user: userId,
       result,
       consecutiveWins,
@@ -70,7 +70,7 @@ router.post("/", async (req, res) => {
 
     const user = await User.findOne({ chatId: userId });
     if (result) {
-      user.point = (user.point || 0) + pointAmount;
+      user.point = (user.point || 0) + (consecutiveWins + 1) * pointAmount;
       user.save();
     }
 
