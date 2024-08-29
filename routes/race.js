@@ -59,10 +59,10 @@ router.post("/", async (req, res) => {
     });
     let consecutiveWins = 0;
     if (latestRace && latestRace.guess === guess && latestRace.result && result)
-      consecutiveWins = 1; // latestRace.consecutiveWins + 1;
+      consecutiveWins = latestRace.consecutiveWins + 1;
     await new Race({
       guess,
-      pointAmount,
+      pointAmount: (consecutiveWins + 1) * pointAmount,
       user: userId,
       result,
       consecutiveWins,
