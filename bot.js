@@ -53,7 +53,7 @@ app.get("*", (req, res) => {
     path.join(__dirname, "../tgbot-btc_racer-frontend/build", "index.html")
   );
 });
-const port = process.env.PORT || 80;
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
