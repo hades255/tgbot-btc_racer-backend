@@ -17,11 +17,6 @@ bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
   try {
     const chatId = msg.chat.id;
     const referralCode = match[1];
-    const {
-      username = "",
-      last_name = "",
-      first_name = "",
-    } = await bot.getChat(chatId);
 
     const inlineKeyboard = {
       reply_markup: {
@@ -30,9 +25,7 @@ bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
             {
               text: "Launch & Battle 🚀",
               web_app: {
-                url: `${serverurl}?userId=${chatId}&username=${username}&name=${
-                  first_name + " " + last_name
-                }&refer=${referralCode}`,
+                url: `${serverurl}?refer=${referralCode}`,
               },
             },
           ],
