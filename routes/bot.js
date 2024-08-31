@@ -11,7 +11,7 @@ const bot = new TelegramBot(token, { polling: true });
 // const serverurl = "https://srv587993.hstgr.cloud";
 const serverurl = "https://360f-172-86-113-74.ngrok-free.app";
 
-const imageUrl = `${serverurl}/public/start.png`;
+const imageUrl = `https://i.imgur.com/8nOuZ7w.png`;
 
 bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
   try {
