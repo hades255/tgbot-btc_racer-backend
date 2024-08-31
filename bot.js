@@ -11,10 +11,10 @@ const fs = require("fs");
 require("./routes/bot");
 require("./helpers/cron");
 
-const options = {
-  key: fs.readFileSync("/etc/letsencrypt/live/srv587993.hstgr.cloud/privkey.pem"),
-  cert: fs.readFileSync("/etc/letsencrypt/live/srv587993.hstgr.cloud/fullchain.pem"),
-};
+// const options = {
+//   key: fs.readFileSync("/etc/letsencrypt/live/srv587993.hstgr.cloud/privkey.pem"),
+//   cert: fs.readFileSync("/etc/letsencrypt/live/srv587993.hstgr.cloud/fullchain.pem"),
+// };
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
