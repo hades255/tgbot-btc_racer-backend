@@ -38,11 +38,11 @@ bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
             },
             {
               text: "*Follow the Latest News 🔈*",
-              url: "https://t.me/anom_invaders_announcements",
+              callback_data: "https://t.me/anom_invaders_announcements",
             },
             {
               text: "*User Guide 📗*",
-              url: "https://docs.alphanomics.io/help/overview/account-plans-and-access/anom-invaders",
+              callback_data: "https://docs.alphanomics.io/help/overview/account-plans-and-access/anom-invaders",
             },
           ],
         ],
