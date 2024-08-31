@@ -11,8 +11,7 @@ const bot = new TelegramBot(token, { polling: true });
 // const serverurl = "https://srv587993.hstgr.cloud";
 const serverurl = "https://360f-172-86-113-74.ngrok-free.app";
 
-// const imageUrl = `${serverurl}/public/start.png`;
-const imageUrl = `https://uxwing.com/wp-content/themes/uxwing/download/nature-and-environment/feather-icon.png`;
+const imageUrl = `${serverurl}/public/start.png`;
 
 bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
   try {
@@ -36,14 +35,18 @@ bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
                 }&refer=${referralCode}`,
               },
             },
-            {
-              text: "*Follow the Latest News 🔈*",
-              callback_data: "https://t.me/anom_invaders_announcements",
-            },
-            {
-              text: "*User Guide 📗*",
-              callback_data: "https://docs.alphanomics.io/help/overview/account-plans-and-access/anom-invaders",
-            },
+            [
+              {
+                text: "*Follow the Latest News 🔈*",
+                url: "https://t.me/anom_invaders_announcements",
+              },
+            ],
+            [
+              {
+                text: "*User Guide 📗*",
+                url: "https://docs.alphanomics.io/help/overview/account-plans-and-access/anom-invaders",
+              },
+            ],
           ],
         ],
       },
@@ -52,6 +55,7 @@ bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
     await bot.sendPhoto(chatId, imageUrl, {
       caption: `👩‍🚀 *Welcome to the ANOM Invaders!*\nFire up your rockets and predict ETH's price in real-time!\n💧 *Guess*: PUMP or DUMP in the next 5 seconds?\n💎*Collect Diamonds*: Correct guesses earn diamonds and bonuses!\n👥 *Invite Friends*: Boost your score by inviting friends!`,
       ...inlineKeyboard,
+      parse_mode: "Markdown",
     });
   } catch (error) {
     console.log(error);
