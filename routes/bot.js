@@ -28,7 +28,7 @@ bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
         inline_keyboard: [
           [
             {
-              text: "*Launch & Battle 🚀*",
+              text: "Launch & Battle 🚀",
               web_app: {
                 url: `${serverurl}?userId=${chatId}&username=${username}&name=${
                   first_name + " " + last_name
@@ -38,13 +38,13 @@ bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
           ],
           [
             {
-              text: "*Follow the Latest News 🔈*",
+              text: "Follow the Latest News 🔈",
               url: "https://t.me/anom_invaders_announcements",
             },
           ],
           [
             {
-              text: "*User Guide 📗*",
+              text: "User Guide 📗",
               url: "https://docs.alphanomics.io/help/overview/account-plans-and-access/anom-invaders",
             },
           ],
