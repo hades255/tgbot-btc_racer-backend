@@ -5,9 +5,16 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const axios = require("axios");
 const morgan = require("morgan");
+const https = require("https");
+const fs = require("fs");
 
 require("./routes/bot");
 require("./helpers/cron");
+
+const options = {
+  key: fs.readFileSync("/etc/letsencrypt/live/your-domain.com/privkey.pem"),
+  cert: fs.readFileSync("/etc/letsencrypt/live/your-domain.com/fullchain.pem"),
+};
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -20,7 +27,7 @@ const referralRouter = require("./routes/referral");
 //  todo
 const dbURI =
   "mongodb+srv://chaolongpiao:chaolong1995@cluster0.inglvcw.mongodb.net/tg_bot";
-  // "mongodb://localhost:27017/example";
+// "mongodb://localhost:27017/example";
 mongoose
   .connect(dbURI)
   .then(() => console.log("MongoDB connected"))
@@ -53,7 +60,13 @@ app.get("*", (req, res) => {
     path.join(__dirname, "../tgbot-btc_racer-frontend/build", "index.html")
   );
 });
+
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+
+// app.listen(port, () => {
+//   console.log(`Server running on port ${port}`);
+// });
+
+https.createServer(options, app).listen(port, () => {
+  console.log(`HTTPS Server running at https://localhost:${port}/`);
 });

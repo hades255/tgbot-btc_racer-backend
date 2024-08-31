@@ -4,11 +4,12 @@ const User = require("../models/User");
 
 //  ANOM Invaders
 //  anom_invaders_bot
-const token = "7200211488:AAGAlNg2aAr4C9WFt-E3xcLWHtSMp_dtgwI";
+// const token = "7200211488:AAGAlNg2aAr4C9WFt-E3xcLWHtSMp_dtgwI";
+const token = "7287598746:AAG42o46fTwoO4EGiHSzyKpnch9mvG0dFZE";
 const bot = new TelegramBot(token, { polling: true });
 
-// const serverurl = "https://srv587993.hstgr.cloud";
-const serverurl = "https://360f-172-86-113-74.ngrok-free.app";
+const serverurl = "https://srv587993.hstgr.cloud";
+// const serverurl = "https://360f-172-86-113-74.ngrok-free.app";
 
 bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
   try {
