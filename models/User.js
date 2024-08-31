@@ -23,6 +23,7 @@ const UserSchema = Schema({
   connectTon: { type: Boolean, default: false },
   //  one time
   followTwitter: { type: Boolean, default: false },
+  watchvideo: { type: Boolean, default: false },
   joinAnnouncementChannel: { type: Boolean, default: false },
   joinNewsletter: { type: Boolean, default: false },
   //  surprise

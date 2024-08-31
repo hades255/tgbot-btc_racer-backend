@@ -61,12 +61,12 @@ app.get("*", (req, res) => {
   );
 });
 
-const port = process.env.PORT || 80;
+const port = process.env.PORT || 3000;
 
-// app.listen(port, () => {
-//   console.log(`Server running on port ${port}`);
-// });
-
-https.createServer(options, app).listen(port, () => {
-  console.log(`HTTPS Server running at https://localhost:${port}/`);
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
+
+// https.createServer(options, app).listen(port, () => {
+//   console.log(`HTTPS Server running at https://localhost:${port}/`);
+// });

@@ -128,43 +128,40 @@ const timerFunc = () => {
     timerFunc();
   }, 1000);
   const fuels = getFuels();
-  fuels.forEach(
-    ({ id, fuelcount, cooldown, fuelcapacity, autopilot, ...rest }) => {
-      let updateFlag = false;
-      if (fuelcount < fuelcapacity) {
-        updateFlag = true;
-        cooldown--;
-        if (cooldown <= 0) {
-          cooldown = 0;
-          fuelcount++;
-          if (fuelcount >= fuelcapacity) fuelcount = fuelcapacity;
-          else {
-            cooldown = 90;
-          }
+  fuels.forEach(({ fuelcount, cooldown, fuelcapacity, autopilot, ...rest }) => {
+    let updateFlag = false;
+    if (fuelcount < fuelcapacity) {
+      updateFlag = true;
+      cooldown--;
+      if (cooldown <= 0) {
+        cooldown = 0;
+        fuelcount++;
+        if (fuelcount >= fuelcapacity) fuelcount = fuelcapacity;
+        else {
+          cooldown = 90;
         }
       }
-      if (autopilot.enabled) {
-        if (dateDiffInMins(new Date(), new Date(autopilot.started)) >= 180) {
-          updateFlag = true;
-          const earned = getAutopilotEarn(autopilot.started, turboCharger);
-          autopilot = {
-            enabled: false,
-            started: null,
-            earned,
-          };
-        }
-      }
-      if (updateFlag)
-        setFuel({
-          id,
-          fuelcount,
-          cooldown,
-          fuelcapacity,
-          autopilot,
-          ...rest,
-        });
     }
-  );
+    if (autopilot.enabled) {
+      if (dateDiffInMins(new Date(), new Date(autopilot.started)) >= 180) {
+        updateFlag = true;
+        const earned = getAutopilotEarn(autopilot.started, rest.turboCharger);
+        autopilot = {
+          enabled: false,
+          started: null,
+          earned,
+        };
+      }
+    }
+    if (updateFlag)
+      setFuel({
+        fuelcount,
+        cooldown,
+        fuelcapacity,
+        autopilot,
+        ...rest,
+      });
+  });
 };
 
 // const timer = setInterval(() => {  //  find more stable way for timer
