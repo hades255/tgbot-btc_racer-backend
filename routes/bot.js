@@ -11,7 +11,8 @@ const bot = new TelegramBot(token, { polling: true });
 // const serverurl = "https://srv587993.hstgr.cloud";
 const serverurl = "https://360f-172-86-113-74.ngrok-free.app";
 
-const imageUrl = `${serverurl}/public/start.png`;
+// const imageUrl = `${serverurl}/public/start.png`;
+const imageUrl = `https://uxwing.com/wp-content/themes/uxwing/download/nature-and-environment/feather-icon.png`;
 
 bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
   try {
@@ -48,7 +49,14 @@ bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
       },
     };
 
-    await bot.sendPhoto(chatId, imageUrl);
+    await bot.sendPhoto(
+      chatId,
+      imageUrl
+      // , {
+      //   caption: `👩‍🚀 *Welcome to the ANOM Invaders!*\nFire up your rockets and predict ETH's price in real-time!\n💧 *Guess*: PUMP or DUMP in the next 5 seconds?\n💎*Collect Diamonds*: Correct guesses earn diamonds and bonuses!\n👥 *Invite Friends*: Boost your score by inviting friends!`,
+      //   ...inlineKeyboard,
+      // }
+    );
   } catch (error) {
     console.log(error);
   }
