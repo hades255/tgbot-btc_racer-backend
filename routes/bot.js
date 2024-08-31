@@ -35,18 +35,18 @@ bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
                 }&refer=${referralCode}`,
               },
             },
-            [
-              {
-                text: "*Follow the Latest News 🔈*",
-                url: "https://t.me/anom_invaders_announcements",
-              },
-            ],
-            [
-              {
-                text: "*User Guide 📗*",
-                url: "https://docs.alphanomics.io/help/overview/account-plans-and-access/anom-invaders",
-              },
-            ],
+          ],
+          [
+            {
+              text: "*Follow the Latest News 🔈*",
+              url: "https://t.me/anom_invaders_announcements",
+            },
+          ],
+          [
+            {
+              text: "*User Guide 📗*",
+              url: "https://docs.alphanomics.io/help/overview/account-plans-and-access/anom-invaders",
+            },
           ],
         ],
       },
