@@ -55,7 +55,8 @@ app.use(
   express.static(path.join(__dirname, "../tgbot-btc_racer-frontend/build"))
 );
 
-app.use("public", express.static(path.join(__dirname, "public")));
+app.use('/public', express.static(path.join(__dirname, 'public')));
+
 
 app.get("*", (req, res) => {
   res.sendFile(
