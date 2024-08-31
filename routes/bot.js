@@ -62,6 +62,27 @@ bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
   }
 });
 
+bot.on("callback_query", async (query) => {
+  try {
+    const chatId = query.message.chat.id;
+    const {
+      username = "",
+      last_name = "",
+      first_name = "",
+    } = await bot.getChat(chatId);
+
+    // Construct the URL with the required format
+    const webAppUrl = `${serverurl}?userId=${chatId}&username=${username}&name=${
+      first_name + " " + last_name
+    }&refer=`;
+
+    // Send the constructed URL to the user
+    bot.sendMessage(chatId, `Opening the web app with URL: ${webAppUrl}`);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 const saveReferralCode = async (userId, referralCode) => {
   try {
     const referrer = await User.findOne({ chatId: referralCode });
