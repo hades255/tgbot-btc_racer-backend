@@ -48,10 +48,7 @@ bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
       },
     };
 
-    await bot.sendPhoto(chatId, imageUrl, {
-      caption: `👩‍🚀 *Welcome to the ANOM Invaders!*\nFire up your rockets and predict ETH's price in real-time!\n💧 *Guess*: PUMP or DUMP in the next 5 seconds?\n💎*Collect Diamonds*: Correct guesses earn diamonds and bonuses!\n👥 *Invite Friends*: Boost your score by inviting friends!`,
-      ...inlineKeyboard,
-    });
+    await bot.sendPhoto(chatId, imageUrl);
   } catch (error) {
     console.log(error);
   }
