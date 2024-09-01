@@ -169,6 +169,20 @@ router.get("/bonus-joinannouncement", async (req, res) => {
   }
 });
 
+router.get("/bonus-watchvideo", async (req, res) => {
+  const { userId } = req.query;
+  try {
+    const user = await User.findOne({ chatId: userId });
+    user.point = user.point + 5000;
+    user.watchvideo = true;
+    await user.save();
+    res.json({ msg: "ok", data: user.point });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error.message);
+  }
+});
+
 router.get("/bonus-joinnewsletter", async (req, res) => {
   const { userId } = req.query;
   try {
