@@ -25,7 +25,7 @@ const newFuel = (id, { ...rest }) => {
 
 const getFuel = (id, options = {}) => {
   console.log(id, FUELs);
-  const fuel = FUELs.find((item) => item.id === id);
+  const fuel = FUELs.find((item) => item.id.toString() === id.toString());
   if (fuel) {
     if (fuel.autopilot.enabled) {
       const earned = getAutopilotEarn(
@@ -50,13 +50,13 @@ const getFuels = () => FUELs;
 
 const setFuel = (item_) =>
   (FUELs = FUELs.map((item) =>
-    item.id === item_.id ? { ...item_ } : { ...item }
+    item.id.toString() === item_.id.toString() ? { ...item_ } : { ...item }
   ));
 
 const boostFuel = (id_) => {
   FUELs = FUELs.map(
     ({ id, fuelcount, cooldown, freeBoost, fuelcapacity, ...rest }) => {
-      if (id === id_) {
+      if (id.toString() === id_.toString()) {
         if (freeBoost > 0) {
           fuelcount += 3;
           if (fuelcount >= fuelcapacity) {
@@ -73,7 +73,7 @@ const boostFuel = (id_) => {
 
 const upgradeFuel = (id_) => {
   FUELs = FUELs.map(({ id, fuelcount, fueltank, fuelcapacity, ...rest }) => {
-    if (id === id_) {
+    if (id.toString() === id_.toString()) {
       fueltank++;
       fuelcount += 2;
       fuelcapacity += 2;
@@ -84,7 +84,7 @@ const upgradeFuel = (id_) => {
 
 const useFuel = (id_) => {
   FUELs = FUELs.map(({ id, fuelcount, cooldown, ...rest }) => {
-    if (id === id_ && fuelcount > 0) {
+    if (id.toString() === id_.toString() && fuelcount > 0) {
       fuelcount -= 1;
       cooldown = cooldown || 89;
     }
@@ -115,7 +115,7 @@ const resetAutopilot = (fuel) => {
 };
 
 const setAutopilot = (id) => {
-  const fuel = FUELs.find((item) => item.id === id);
+  const fuel = FUELs.find((item) => item.id.toString() === id.toString());
   setFuel({
     ...fuel,
     autopilot: {
