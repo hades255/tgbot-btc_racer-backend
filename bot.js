@@ -24,6 +24,7 @@ app.use(bodyParser.json());
 const raceRouter = require("./routes/race");
 const userRouter = require("./routes/user");
 const referralRouter = require("./routes/referral");
+const { token } = require("./routes/bot");
 //  todo
 const dbURI =
   "mongodb+srv://chaolongpiao:chaolong1995@cluster0.inglvcw.mongodb.net/tg_bot";
@@ -42,8 +43,8 @@ app.use((req, res, next) => {
 });
 
 app.post(`/bot${token}`, (req, res) => {
-  console.log("webhook", token);
   const { body } = req;
+  console.log("webhook", body);
   bot.processUpdate(body);
   res.sendStatus(200);
 });

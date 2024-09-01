@@ -102,4 +102,4 @@ const saveReferralCode = async (userId, referralCode) => {
   }
 };
 
-module.exports = { saveReferralCode };
+module.exports = { saveReferralCode, token };
