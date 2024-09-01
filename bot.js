@@ -35,6 +35,12 @@ mongoose
 
 // app.use(morgan("combined"));
 
+app.use((req, res, next) => {
+  req.setTimeout(300000); // 5 minutes
+  res.setTimeout(300000); // 5 minutes
+  next();
+});
+
 app.get("/btc-price", async (req, res) => {
   try {
     const response = await axios.get(
@@ -55,8 +61,7 @@ app.use(
   express.static(path.join(__dirname, "../tgbot-btc_racer-frontend/build"))
 );
 
-app.use('/public', express.static(path.join(__dirname, 'public')));
-
+app.use("/public", express.static(path.join(__dirname, "public")));
 
 app.get("*", (req, res) => {
   res.sendFile(
