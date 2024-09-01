@@ -4,9 +4,9 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
 const axios = require("axios");
-const morgan = require("morgan");
-const https = require("https");
-const fs = require("fs");
+// const morgan = require("morgan");
+// const https = require("https");
+// const fs = require("fs");
 
 require("./routes/bot");
 require("./helpers/cron");
@@ -33,7 +33,7 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
 
-app.use(morgan("combined"));
+// app.use(morgan("combined"));
 
 app.get("/btc-price", async (req, res) => {
   try {

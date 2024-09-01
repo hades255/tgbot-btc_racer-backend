@@ -69,7 +69,7 @@ router.get("/", async (req, res) => {
         point: bonus || 0,
       }).save();
       let fuel = newFuel(userId);
-      res.json({ msg: "ok", data: { point: 0, fuel, user, bonus } });
+      res.json({ msg: "ok", data: { point: user.point, fuel, user, bonus } });
     }
   } catch (error) {
     console.log(error);

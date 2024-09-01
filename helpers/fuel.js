@@ -18,11 +18,13 @@ const FUEL = {
 };
 
 const newFuel = (id, { ...rest }) => {
-  FUELs.push({ ...FUEL, ...rest, id });
-  return FUEL;
+  const nfuel = { ...FUEL, ...rest, id };
+  FUELs.push(nfuel);
+  return nfuel;
 };
 
 const getFuel = (id, options = {}) => {
+  console.log(id, FUELs);
   const fuel = FUELs.find((item) => item.id === id);
   if (fuel) {
     if (fuel.autopilot.enabled) {
