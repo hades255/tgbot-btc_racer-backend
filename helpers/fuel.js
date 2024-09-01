@@ -86,10 +86,11 @@ const useFuel = (id_) => {
   FUELs = FUELs.map(({ id, fuelcount, cooldown, ...rest }) => {
     if (id === id_ && fuelcount > 0) {
       fuelcount -= 1;
-      cooldown = cooldown || 85;
+      cooldown = cooldown || 89;
     }
     return { id, fuelcount, cooldown, ...rest };
   });
+  console.log(FUELs);
 };
 
 const resetBoosts = () => {
