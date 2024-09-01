@@ -25,7 +25,7 @@ bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
             {
               text: "Launch & Battle 🚀",
               web_app: {
-                url: `${serverurl}?refer=${referralCode}`,
+                url: `${serverurl}?refer=${referralCode || ""}`,
               },
             },
           ],
