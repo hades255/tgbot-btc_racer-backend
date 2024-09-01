@@ -41,6 +41,13 @@ app.use((req, res, next) => {
   next();
 });
 
+app.post(`/bot${token}`, (req, res) => {
+  console.log("webhook", token);
+  const { body } = req;
+  bot.processUpdate(body);
+  res.sendStatus(200);
+});
+
 app.get("/btc-price", async (req, res) => {
   try {
     const response = await axios.get(
