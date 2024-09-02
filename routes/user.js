@@ -23,6 +23,7 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
   const { userId, name, username, refer } = req.query;
+  console.log(req.query);
   try {
     let user = await User.findOne({ chatId: userId });
     let bonus = 0;
