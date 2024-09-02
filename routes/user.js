@@ -215,12 +215,19 @@ router.get("/checkcsv", async (req, res) => {
     );
     const result = response.data.points === null ? false : true;
     if (user && result) {
+      if (!user.eligibility) {
+        user.point += 10000;
+      }
       user.eligibility = true;
       user.ethaddress = wallet;
       if (Number(response.data.points) >= 10) user.pluslevel = true;
       await user.save();
     }
-    res.json({ point: response.data.points, data: user && result });
+    res.json({
+      point: response.data.points,
+      userPoint: user.point || 0,
+      data: user && result,
+    });
   } catch (error) {
     console.log(error);
     res.status(400).send(error.message);
