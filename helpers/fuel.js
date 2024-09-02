@@ -1,4 +1,4 @@
-const { dateDiffInSeconds, dateDiffInMins } = require("./func");
+const { dateDiffInMins } = require("./func");
 
 let FUELs = [];
 
@@ -97,11 +97,8 @@ const resetBoosts = () => {
   FUELs = FUELs.map((item) => ({ ...item, freeBoost: 3 }));
 };
 
-const getAutopilotEarn = (started, turboCharger) =>
-  Math.round(
-    dateDiffInSeconds(new Date(), new Date(started)) / (Math.random() * 15 + 75)
-  ) *
-  (10 + 10 * turboCharger);
+const getAutopilotEarn = (started) =>
+  (dateDiffInMins(new Date(), new Date(started)) / 60) * 500;
 
 const resetAutopilot = (fuel) => {
   setFuel({
@@ -148,7 +145,7 @@ const timerFunc = () => {
     if (autopilot.enabled) {
       if (dateDiffInMins(new Date(), new Date(autopilot.started)) >= 180) {
         updateFlag = true;
-        const earned = getAutopilotEarn(autopilot.started, rest.turboCharger);
+        const earned = 1500; //getAutopilotEarn(autopilot.started, rest.turboCharger);
         autopilot = {
           enabled: false,
           started: null,
