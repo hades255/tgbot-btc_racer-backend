@@ -98,7 +98,7 @@ const resetBoosts = () => {
 };
 
 const getAutopilotEarn = (started) =>
-  (dateDiffInMins(new Date(), new Date(started)) / 60) * 500;
+  Math.round((dateDiffInMins(new Date(), new Date(started)) / 60) * 50) * 10;
 
 const resetAutopilot = (fuel) => {
   setFuel({
