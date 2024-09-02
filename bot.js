@@ -77,6 +77,12 @@ app.get("*", (req, res) => {
   );
 });
 
+app.get("/battle", (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "../tgbot-btc_racer-frontend/build", "index.html")
+  );
+});
+
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
