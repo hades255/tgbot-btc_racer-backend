@@ -86,7 +86,7 @@ const saveReferralCode = async (userId, referralCode) => {
       });
       if (oldref) return null;
       const bonus =
-        5000 + referrer.point / 10 > 10000 ? 10000 : referrer.point / 10;
+        5000 + (referrer.point / 10 > 10000 ? 10000 : referrer.point / 10);
       await new Referral({
         code: referralCode,
         userId,
