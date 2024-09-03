@@ -91,7 +91,7 @@ const saveReferralCode = async (userId, referralCode, user) => {
         userId: referralCode,
         code: userId,
       });
-      if (sendRef) bonuscase = false;
+      if (sendRef) return null; //bonuscase = false;
       if (bonuscase) {
         const oldrefCounts = await Referral.countDocuments({
           code: referralCode,
@@ -125,21 +125,21 @@ const checkBonusStatus = async (userId) => {
     const refers = await Referral.find({ code: userId });
 
     let newBonus = 0;
-    refers.forEach(async (refer) => {
-      try {
-        const referrer = await User.findOne({ chatId: refer.userId });
-        if (referrer) {
-          const bonus = (refer.status ? 5000 : 0) + referrer.point;
-          newBonus += bonus - (refer.read ? refer.bonus : 0);
-          await Referral.updateOne(
-            { code: userId, userId: refer.userId },
-            { bonus, read: true }
-          );
-        }
-      } catch (error) {
-        console.log(error);
+    for (i = 0; i < refers.length; i++) {
+      const refer = refers[i];
+      const referrer = await User.findOne({ chatId: refer.userId });
+      if (referrer) {
+        const bonus =
+          (refer.status ? 5000 : 0) +
+          (referrer.point / 10 > 10000 ? 10000 : Math.round(referrer.point));
+        const diff = bonus - (refer.read ? refer.bonus : 0);
+        newBonus += diff > 0 ? diff : 0;
+        await Referral.updateOne(
+          { code: userId, userId: refer.userId },
+          { bonus, read: true }
+        );
       }
-    });
+    }
     return newBonus;
   } catch (error) {
     console.log(error);
