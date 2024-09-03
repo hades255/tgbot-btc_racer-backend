@@ -29,7 +29,7 @@ router.get("/", async (req, res) => {
     let bonus = 0;
     let updateFlag = false;
     if (refer && refer !== userId) {
-      bonus = await saveReferralCode(userId, refer);
+      bonus = await saveReferralCode(userId, refer, user);
     }
     if (user) {
       bonus = await checkBonusStatus(userId);

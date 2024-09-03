@@ -6,6 +6,7 @@ const referralSchema = new Schema({
   userId: { type: String, required: true }, //  receiver
   bonus: { type: Number, default: 0 },
   status: { type: Boolean, default: false },
+  read: { type: Boolean, default: false },
   timestamp: Date,
 });
 

@@ -76,7 +76,7 @@ bot.on("callback_query", async (query) => {
   }
 });
 
-const saveReferralCode = async (userId, referralCode) => {
+const saveReferralCode = async (userId, referralCode, user) => {
   try {
     const referrer = await User.findOne({ chatId: referralCode });
     if (referrer) {
@@ -86,6 +86,7 @@ const saveReferralCode = async (userId, referralCode) => {
       });
       if (oldref) return null;
       let bonuscase = true;
+      let bonuscase5k = false;
       const sendRef = await Referral.findOne({
         userId: referralCode,
         code: userId,
@@ -95,21 +96,22 @@ const saveReferralCode = async (userId, referralCode) => {
         const oldrefCounts = await Referral.countDocuments({
           code: referralCode,
         });
-        if (oldrefCounts > 5) bonuscase = false;
+        if (oldrefCounts < 5) bonuscase5k = true;
       }
       let bonus = 0;
       if (bonuscase) {
-        bonus = 5000;
-        // +(referrer.point / 10 > 10000
-        //   ? 10000
-        //   : Math.round(referrer.point / 10));
+        const point = user ? user.point : 1000;
+        bonus =
+          (bonuscase5k ? 5000 : 0) +
+          (point / 10 > 10000 ? 10000 : Math.round(point / 10));
       }
       await new Referral({
         code: referralCode,
         userId,
         bonus,
+        status: bonuscase5k,
       }).save();
-      return null;
+      return bonuscase ? (user ? 0 : 1000) : 0;
     }
     return null;
   } catch (error) {
@@ -120,26 +122,25 @@ const saveReferralCode = async (userId, referralCode) => {
 
 const checkBonusStatus = async (userId) => {
   try {
-    const bonusSum = await Referral.aggregate([
-      {
-        $match: {
-          code: userId,
-          status: false,
-        },
-      },
-      {
-        $group: {
-          _id: null,
-          totalBonus: { $sum: "$bonus" },
-        },
-      },
-    ]);
+    const refers = await Referral.find({ code: userId });
 
-    await Referral.updateMany(
-      { code: userId, status: false },
-      { $set: { status: true } }
-    );
-    return bonusSum.length > 0 ? bonusSum[0].totalBonus : 0;
+    let newBonus = 0;
+    refers.forEach(async (refer) => {
+      try {
+        const referrer = await User.findOne({ chatId: refer.userId });
+        if (referrer) {
+          const bonus = (refer.status ? 5000 : 0) + referrer.point;
+          newBonus += bonus - (refer.read ? refer.bonus : 0);
+          await Referral.updateOne(
+            { code: userId, userId: refer.userId },
+            { bonus, read: true }
+          );
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+    return newBonus;
   } catch (error) {
     console.log(error);
     throw error;
