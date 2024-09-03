@@ -17,7 +17,7 @@ const FUEL = {
   },
 };
 
-const newFuel = (id, { ...rest }) => {
+const newFuel = (id, rest = {}) => {
   const nfuel = { ...FUEL, ...rest, id };
   FUELs.push(nfuel);
   return nfuel;

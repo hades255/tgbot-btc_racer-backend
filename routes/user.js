@@ -79,7 +79,7 @@ router.get("/", async (req, res) => {
         username,
         point: bonus || 0,
       }).save();
-      let fuel = newFuel(userId);
+      let fuel = newFuel(userId, {});
       res.json({ msg: "ok", data: { point: user.point, fuel, user, bonus } });
     }
   } catch (error) {
