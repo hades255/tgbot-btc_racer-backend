@@ -85,15 +85,31 @@ const saveReferralCode = async (userId, referralCode) => {
         userId,
       });
       if (oldref) return null;
-      const bonus =
-        5000 + (referrer.point / 10 > 10000 ? 10000 : referrer.point / 10);
+      let bonuscase = true;
+      const sendRef = await Referral.findOne({
+        userId: referralCode,
+        code: userId,
+      });
+      if (sendRef) bonuscase = false;
+      if (bonuscase) {
+        const oldrefCounts = await Referral.countDocuments({
+          code: referralCode,
+        });
+        if (oldrefCounts > 5) bonuscase = false;
+      }
+      let bonus = 0;
+      if (bonuscase) {
+        bonus = 5000;
+        // +(referrer.point / 10 > 10000
+        //   ? 10000
+        //   : Math.round(referrer.point / 10));
+      }
       await new Referral({
         code: referralCode,
         userId,
         bonus,
-        timestamp: new Date(),
       }).save();
-      return bonus;
+      return null;
     }
     return null;
   } catch (error) {
@@ -102,4 +118,32 @@ const saveReferralCode = async (userId, referralCode) => {
   }
 };
 
-module.exports = { saveReferralCode, token };
+const checkBonusStatus = async (userId) => {
+  try {
+    const bonusSum = await Referral.aggregate([
+      {
+        $match: {
+          code: userId,
+          status: false,
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalBonus: { $sum: "$bonus" },
+        },
+      },
+    ]);
+
+    await Referral.updateMany(
+      { code: userId, status: false },
+      { $set: { status: true } }
+    );
+    return bonusSum.length > 0 ? bonusSum[0].totalBonus : 0;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+module.exports = { saveReferralCode, checkBonusStatus, token };

@@ -2,9 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const referralSchema = new Schema({
-  code: { type: String, required: true },
-  userId: { type: String, required: true },
+  code: { type: String, required: true }, //  sender
+  userId: { type: String, required: true }, //  receiver
   bonus: { type: Number, default: 0 },
+  status: { type: Boolean, default: false },
   timestamp: Date,
 });
 

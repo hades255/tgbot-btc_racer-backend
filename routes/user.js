@@ -3,7 +3,7 @@ const User = require("../models/User");
 const { newFuel, getFuel, setAutopilot } = require("../helpers/fuel");
 const { turborPoints, dailyBonusPoints } = require("../helpers/user");
 const { default: axios } = require("axios");
-const { saveReferralCode } = require("./bot");
+const { saveReferralCode, checkBonusStatus } = require("./bot");
 
 const router = express.Router();
 
@@ -32,6 +32,7 @@ router.get("/", async (req, res) => {
       bonus = await saveReferralCode(userId, refer);
     }
     if (user) {
+      bonus = checkBonusStatus(userId);
       if (name) {
         user.name = name;
         updateFlag = true;
