@@ -100,7 +100,7 @@ const saveReferralCode = async (userId, referralCode, user) => {
       }
       let bonus = 0;
       if (bonuscase) {
-        const point = user.point; //user ? user.point : 1000;
+        const point = user.point || 0;
         bonus =
           (bonuscase5k ? 5000 : 0) +
           (point > 100000 ? 10000 : Math.round(point / 10));
@@ -111,7 +111,7 @@ const saveReferralCode = async (userId, referralCode, user) => {
         bonus,
         status: bonuscase5k,
       }).save();
-      return 0; //bonuscase ? (user ? 0 : 1000) : 0;
+      return null;
     }
     return null;
   } catch (error) {
