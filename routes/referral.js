@@ -9,6 +9,7 @@ router.get("/frens", async (req, res) => {
   try {
     let userIds = await Referral.distinct("userId", {
       code: userId,
+      read: true,
     }).exec();
 
     const frens = await User.find({
