@@ -28,7 +28,7 @@ router.get("/", async (req, res) => {
     let user = await User.findOne({ chatId: userId });
     let bonus = 0;
     let updateFlag = false;
-    if (refer) {
+    if (refer && refer !== userId) {
       bonus = await saveReferralCode(userId, refer);
     }
     if (user) {
