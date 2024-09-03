@@ -125,6 +125,7 @@ const checkBonusStatus = async (userId) => {
     const refers = await Referral.find({ code: userId });
 
     let newBonus = 0;
+    console.log("newBonus", newBonus);
     for (i = 0; i < refers.length; i++) {
       const refer = refers[i];
       const referrer = await User.findOne({ chatId: refer.userId });
@@ -134,12 +135,14 @@ const checkBonusStatus = async (userId) => {
           (referrer.point / 10 > 10000 ? 10000 : Math.round(referrer.point));
         const diff = bonus - (refer.read ? refer.bonus : 0);
         newBonus += diff > 0 ? diff : 0;
+        console.log(newBonus);
         await Referral.updateOne(
           { code: userId, userId: refer.userId },
           { bonus, read: true }
         );
       }
     }
+    console.log("newBonus", newBonus);
     return newBonus;
   } catch (error) {
     console.log(error);

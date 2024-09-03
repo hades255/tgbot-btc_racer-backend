@@ -11,7 +11,7 @@ router.get("/frens", async (req, res) => {
       code: userId,
     }).exec();
 
-    const frens = await User.find({ chatId: { $in: userIds } })
+    const frens = await User.find({ chatId: { $in: [...userIds, userId] } })
       .sort({
         point: -1,
       })
