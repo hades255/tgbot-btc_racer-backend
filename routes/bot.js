@@ -100,10 +100,10 @@ const saveReferralCode = async (userId, referralCode, user) => {
       }
       let bonus = 0;
       if (bonuscase) {
-        const point = user ? user.point : 1000;
+        const point = user.point; //user ? user.point : 1000;
         bonus =
           (bonuscase5k ? 5000 : 0) +
-          (point / 10 > 10000 ? 10000 : Math.round(point / 10));
+          (point > 100000 ? 10000 : Math.round(point / 10));
       }
       await new Referral({
         code: referralCode,
@@ -111,7 +111,7 @@ const saveReferralCode = async (userId, referralCode, user) => {
         bonus,
         status: bonuscase5k,
       }).save();
-      return bonuscase ? (user ? 0 : 1000) : 0;
+      return 0; //bonuscase ? (user ? 0 : 1000) : 0;
     }
     return null;
   } catch (error) {
@@ -125,24 +125,21 @@ const checkBonusStatus = async (userId) => {
     const refers = await Referral.find({ code: userId });
 
     let newBonus = 0;
-    console.log("newBonus", newBonus);
     for (i = 0; i < refers.length; i++) {
       const refer = refers[i];
       const referrer = await User.findOne({ chatId: refer.userId });
       if (referrer) {
         const bonus =
           (refer.status ? 5000 : 0) +
-          (referrer.point / 10 > 10000 ? 10000 : Math.round(referrer.point));
+          (referrer.point > 100000 ? 10000 : Math.round(referrer.point / 10));
         const diff = bonus - (refer.read ? refer.bonus : 0);
         newBonus += diff > 0 ? diff : 0;
-        console.log(newBonus);
         await Referral.updateOne(
           { code: userId, userId: refer.userId },
           { bonus, read: true }
         );
       }
     }
-    console.log("newBonus", newBonus);
     return newBonus;
   } catch (error) {
     console.log(error);

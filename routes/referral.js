@@ -11,11 +11,11 @@ router.get("/frens", async (req, res) => {
       code: userId,
     }).exec();
 
-    const frens = await User.find({ chatId: { $in: [...userIds, userId] } })
-      .sort({
-        point: -1,
-      })
-      .limit(100);
+    const frens = await User.find({
+      chatId: { $in: [...userIds, userId] },
+    }).sort({
+      point: -1,
+    });
     res.json({ msg: "ok", frens });
   } catch (error) {
     console.log(error);

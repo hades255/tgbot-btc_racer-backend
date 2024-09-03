@@ -96,7 +96,8 @@ router.get("/all", async (req, res) => {
         point: -1,
       })
       .limit(100);
-    res.json({ msg: "ok", data: users });
+    const count = await User.countDocuments();
+    res.json({ msg: "ok", data: users, count });
   } catch (error) {
     res.status(400).send(error.message);
   }
