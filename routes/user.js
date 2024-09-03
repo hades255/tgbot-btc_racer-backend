@@ -32,7 +32,7 @@ router.get("/", async (req, res) => {
       bonus = await saveReferralCode(userId, refer);
     }
     if (user) {
-      bonus = checkBonusStatus(userId);
+      bonus = await checkBonusStatus(userId);
       if (name) {
         user.name = name;
         updateFlag = true;
