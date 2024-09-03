@@ -28,7 +28,7 @@ router.get("/bonus", async (req, res) => {
   try {
     const result = await Referral.aggregate([
       {
-        $match: { code: userId },
+        $match: { code: userId, read: true },
       },
       {
         $group: {
