@@ -7,18 +7,9 @@ const router = express.Router();
 router.get("/frens", async (req, res) => {
   const { userId } = req.query;
   try {
-    let userIds1 = await Referral.distinct("userId", {
-      $or: [{ userId }, { code: userId }],
+    let userIds = await Referral.distinct("userId", {
+      code: userId,
     }).exec();
-    let userIds2 = await Referral.distinct("code", {
-      $or: [{ userId }, { code: userId }],
-    }).exec();
-    const userIds = userIds1.concat(userIds2).reduce((acc, item) => {
-      if (!acc.includes(item)) {
-        acc.push(item);
-      }
-      return acc;
-    }, []);
 
     const frens = await User.find({ chatId: { $in: userIds } })
       .sort({
