@@ -1,6 +1,6 @@
 const express = require("express");
 const User = require("../models/User");
-const { newFuel, getFuel, setAutopilot } = require("../helpers/fuel");
+const { newFuel, getFuel } = require("../helpers/fuel");
 const { turborPoints, dailyBonusPoints } = require("../helpers/user");
 const { default: axios } = require("axios");
 const { saveReferralCode, checkBonusStatus } = require("./bot");
@@ -58,12 +58,16 @@ router.get("/", async (req, res) => {
         fuelcount: 10 + user.fueltank * 2,
         fuelcapacity: 10 + user.fueltank * 2,
         turboCharger: user.turboCharger,
+        autopilot: {
+          enabled: unlockAuthPilot,
+          started: unlockAuthPilot ? new Date() : null,
+          earned: 0,
+        },
       });
       if (fuel.autopilot.earned) {
         user.point = (user.point | 0) + fuel.autopilot.earned;
         updateFlag = true;
       }
-      if (unlockAuthPilot) setAutopilot(userId);
       if (updateFlag) await user.save();
       res.json({
         point: user.point,

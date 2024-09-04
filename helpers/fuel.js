@@ -24,20 +24,19 @@ const newFuel = (id, rest = {}) => {
 };
 
 const getFuel = (id, options = {}) => {
-  console.log(id, FUELs);
   const fuel = FUELs.find((item) => item.id.toString() === id.toString());
+  console.log(id, fuel);
   if (fuel) {
     if (fuel.autopilot.enabled) {
-      const earned = getAutopilotEarn(
-        fuel.autopilot.started,
-        fuel.turboCharger
-      );
+      const earned =
+        fuel.autopilot.earned ||
+        getAutopilotEarn(fuel.autopilot.started, fuel.turboCharger);
       resetAutopilot(fuel);
       return {
         ...fuel,
         autopilot: {
-          enabled: false,
-          started: null,
+          enabled: true,
+          started: new Date(),
           earned,
         },
       };
@@ -48,11 +47,12 @@ const getFuel = (id, options = {}) => {
 
 const getFuels = () => FUELs;
 
-const setFuel = (item_) =>
-  (FUELs = FUELs.map((item) =>
+const setFuel = (item_) => {
+  FUELs = FUELs.map((item) =>
     item.id.toString() === item_.id.toString() ? { ...item_ } : { ...item }
-  ));
-
+  );
+  return item_;
+};
 const boostFuel = (id_) => {
   FUELs = FUELs.map(
     ({ id, fuelcount, cooldown, freeBoost, fuelcapacity, ...rest }) => {
@@ -101,11 +101,11 @@ const getAutopilotEarn = (started) =>
   Math.round((dateDiffInMins(new Date(), new Date(started)) / 60) * 50) * 10;
 
 const resetAutopilot = (fuel) => {
-  setFuel({
+  return setFuel({
     ...fuel,
     autopilot: {
-      enabled: false,
-      started: null,
+      enabled: true,
+      started: new Date(),
       earned: 0,
     },
   });
@@ -113,7 +113,7 @@ const resetAutopilot = (fuel) => {
 
 const setAutopilot = (id) => {
   const fuel = FUELs.find((item) => item.id.toString() === id.toString());
-  setFuel({
+  return setFuel({
     ...fuel,
     autopilot: {
       enabled: true,
@@ -145,7 +145,7 @@ const timerFunc = () => {
     if (autopilot.enabled) {
       if (dateDiffInMins(new Date(), new Date(autopilot.started)) >= 180) {
         updateFlag = true;
-        const earned = 1500; //getAutopilotEarn(autopilot.started, rest.turboCharger);
+        const earned = 1500;
         autopilot = {
           enabled: false,
           started: null,
@@ -175,7 +175,5 @@ module.exports = {
   useFuel,
   upgradeFuel,
   resetBoosts,
-  getAutopilotEarn,
-  resetAutopilot,
   setAutopilot,
 };
