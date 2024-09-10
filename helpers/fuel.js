@@ -25,7 +25,6 @@ const newFuel = (id, rest = {}) => {
 
 const getFuel = (id, options = {}) => {
   const fuel = FUELs.find((item) => item.id.toString() === id.toString());
-  console.log(id, fuel);
   if (fuel) {
     if (fuel.autopilot.enabled || fuel.autopilot.earned) {
       const earned =
@@ -90,7 +89,6 @@ const useFuel = (id_) => {
     }
     return { id, fuelcount, cooldown, ...rest };
   });
-  console.log(FUELs);
 };
 
 const resetBoosts = () => {

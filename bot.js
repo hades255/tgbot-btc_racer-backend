@@ -5,16 +5,9 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const axios = require("axios");
 // const morgan = require("morgan");
-// const https = require("https");
-// const fs = require("fs");
 
 require("./routes/bot");
 require("./helpers/cron");
-
-// const options = {
-//   key: fs.readFileSync("/etc/letsencrypt/live/srv587993.hstgr.cloud/privkey.pem"),
-//   cert: fs.readFileSync("/etc/letsencrypt/live/srv587993.hstgr.cloud/fullchain.pem"),
-// };
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -40,25 +33,6 @@ app.use((req, res, next) => {
   req.setTimeout(300000); // 5 minutes
   res.setTimeout(300000); // 5 minutes
   next();
-});
-
-app.post(`/bot${token}`, (req, res) => {
-  const { body } = req;
-  console.log("webhook", body);
-  bot.processUpdate(body);
-  res.sendStatus(200);
-});
-
-app.get("/btc-price", async (req, res) => {
-  try {
-    const response = await axios.get(
-      "https://api.coindesk.com/v1/bpi/currentprice/BTC.json"
-    );
-    const btcPrice = response.data.bpi.USD.rate;
-    res.send(`<h1>Current BTC Price: $${btcPrice}</h1>`);
-  } catch (error) {
-    res.send("Error fetching BTC price");
-  }
 });
 
 app.use("/race", raceRouter);
@@ -88,7 +62,3 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-
-// https.createServer(options, app).listen(port, () => {
-//   console.log(`HTTPS Server running at https://localhost:${port}/`);
-// });
