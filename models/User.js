@@ -26,6 +26,9 @@ const UserSchema = Schema({
   watchvideo: { type: Boolean, default: false },
   joinAnnouncementChannel: { type: Boolean, default: false },
   joinNewsletter: { type: Boolean, default: false },
+  liketweet: { type: Boolean, default: false },
+  reactPost: { type: Boolean, default: false },
+  subscribeUtv: { type: Boolean, default: false },
   //  surprise
   autoDriv: { type: Boolean, default: false },
   signupAccount: { type: Boolean, default: false },

@@ -51,7 +51,10 @@ router.get("/", async (req, res) => {
         user.joinNewsletter &&
         user.joinAnnouncementChannel &&
         user.eligibility &&
-        user.pluslevel;
+        user.pluslevel &&
+        user.liketweet &&
+        user.reactPost &&
+        user.subscribeUtv;
 
       let fuel = getFuel(userId, {
         fueltank: user.fueltank,
@@ -213,6 +216,48 @@ router.get("/bonus-joinnewsletter", async (req, res) => {
   }
 });
 
+router.get("/bonus-liketweet", async (req, res) => {
+  const { userId } = req.query;
+  try {
+    const user = await User.findOne({ chatId: userId });
+    user.point = user.point + 5000;
+    user.liketweet = true;
+    await user.save();
+    res.json({ msg: "ok", data: user.point });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error.message);
+  }
+});
+
+router.get("/bonus-reactPost", async (req, res) => {
+  const { userId } = req.query;
+  try {
+    const user = await User.findOne({ chatId: userId });
+    user.point = user.point + 4000;
+    user.reactPost = true;
+    await user.save();
+    res.json({ msg: "ok", data: user.point });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error.message);
+  }
+});
+
+router.get("/bonus-subscribeUtv", async (req, res) => {
+  const { userId } = req.query;
+  try {
+    const user = await User.findOne({ chatId: userId });
+    user.point = user.point + 5000;
+    user.subscribeUtv = true;
+    await user.save();
+    res.json({ msg: "ok", data: user.point });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error.message);
+  }
+});
+
 router.get("/checkcsv", async (req, res) => {
   const { userId, wallet } = req.query;
   try {
@@ -223,7 +268,7 @@ router.get("/checkcsv", async (req, res) => {
     const result = response.data.points === null ? false : true;
     if (user && result) {
       if (!user.eligibility) {
-        user.point += 10000;
+        user.point += 20000;
       }
       user.eligibility = true;
       user.ethaddress = wallet;
