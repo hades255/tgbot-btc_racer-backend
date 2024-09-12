@@ -26,7 +26,11 @@ const newFuel = (id, rest = {}) => {
 const getFuel = (id, options = {}) => {
   const fuel = FUELs.find((item) => item.id.toString() === id.toString());
   if (fuel) {
-    if (fuel.autopilot.enabled || fuel.autopilot.earned) {
+    if (
+      fuel.autopilot.enabled ||
+      fuel.autopilot.earned ||
+      options.autopilot.enabled
+    ) {
       const earned =
         fuel.autopilot.earned ||
         getAutopilotEarn(fuel.autopilot.started, fuel.turboCharger);
