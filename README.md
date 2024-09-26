@@ -1,4 +1,4 @@
-[![Battle](https://i.imgur.com/0uT7tcH.png)](https://t.me/anom_invaders_bot)
+[![Battle](https://i.imgur.com/dxXFnqW.png)](https://t.me/anom_invaders_bot)
 
 ### ANOM Invaders 💧 Fire up your rockets and predict ETH's price in real-time!
 
