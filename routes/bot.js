@@ -33,7 +33,7 @@ bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
           [
             {
               text: "Follow the Latest News 🔈",
-              url: "https://t.me/anom_invaders_announcements",
+              url: "https://t.me/alphanomics_announcements",
             },
           ],
           [
